@@ -28,7 +28,7 @@ vagrant up
 ## LICENSE
 
 ```
-pgsql-vagrant: A test environment for database PostgreSQL
+pgsql-vagrant: A vagrant template to testing your PostgreSQL database
 Copyright (C) 2020 marcos-ro <marcosroropeza@protonmail.com>
 
 This program is free software: you can redistribute it and/or modify
