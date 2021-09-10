@@ -8,7 +8,7 @@
 
 Vagrant.configure("2") do |config|
   # Config basic
-  config.vm.box      = "debian/buster64"
+  config.vm.box      = "debian/bullseye64"
   config.vm.hostname = "postgresql"
 
   # Config private network for comunicate out of the vagrant box
