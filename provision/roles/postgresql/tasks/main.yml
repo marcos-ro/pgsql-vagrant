@@ -1,23 +1,8 @@
-- name: Requirements
-  remote_user: root
-  apt: name={{ item }} state=present
-  with_items:
-    - curl
-    - ca-certificates
-    - gnupg
-
-- name: PGDG Config
-  remote_user: root
-  shell: |
-    curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - &&
-    echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main"\
-    > /etc/apt/sources.list.d/pgdg.list
-
-- name: PostgreSQL Software
-  remote_user: root
+---
+- name: PostgreSQL installation
   apt: name=postgresql-13 state=present update_cache=yes
 
-- name: PostgreSQL postgresql.conf
+- name: Write your configuration in postgresql.conf
   vars:
     listen_addresses: '*'
     port: 5000
@@ -30,7 +15,7 @@
     group: postgres
     mode: '0644'
 
-- name: PostgreSQL pg_hba.conf
+- name: Write your access security in pg_hba.conf
   vars:
     database: 'all'
     role: 'all'
@@ -44,8 +29,7 @@
     group: postgres
     mode: '0640'
 
-- name: PostgreSQL restart
-  remote_user: root
+- name: Restart postgres daemon for reload all new setttings
   shell: systemctl restart postgresql
 
 - name: PostgreSQL upload vagrant.sql
@@ -59,7 +43,8 @@
     group: postgres
     mode: '0740'
 
-- name: PostgreSQL exec vagrant.sql
+- name: Execute vagrant.sql
   shell: |
-    sudo su postgres -c "psql -f /tmp/vagrant.sql > /tmp/vagrant.log 2> /tmp/vagrant.log" &&
+    su postgres -c "psql -f /tmp/vagrant.sql > /tmp/vagrant.log 2> /tmp/vagrant.err" &&
     rm /tmp/vagrant.sql
+...
